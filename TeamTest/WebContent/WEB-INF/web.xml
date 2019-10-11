@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>SnsProject</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <!-- Member -->
+  <servlet>
+  	<servlet-name>MemberController</servlet-name>
+  	<servlet-class>sns.member.action.MemberController</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>MemberController</servlet-name>
+  	<url-pattern>*.me</url-pattern>
+  </servlet-mapping>
+  <!-- Member -->
+  
+  <!-- MemberJoin -->
+  <servlet>
+  	<servlet-name>MemberJoinServlet</servlet-name>
+  	<servlet-class>sns.member.action.MemberJoinServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>MemberJoinServlet</servlet-name>
+  	<url-pattern>/MemberJoinServlet</url-pattern>
+  </servlet-mapping>
+  <!-- MemberJoin -->
+  
+  <!-- Main -->
+  <servlet>
+  	<servlet-name>MainController</servlet-name>
+  	<servlet-class>sns.main.action.MainController</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>MainController</servlet-name>
+  	<url-pattern>*.ma</url-pattern>
+  </servlet-mapping>
+  <!-- Main -->
+  
+   <!-- Board -->
+  <servlet>
+  	<servlet-name>BoardController</servlet-name>
+  	<servlet-class>sns.board.action.BoardController</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>BoardController</servlet-name>
+  	<url-pattern>*.bo</url-pattern>
+  </servlet-mapping>
+  <!-- Board -->
+  
+  <!-- BoardInsert -->
+  <servlet>
+  	<servlet-name>BoardInsertServlet</servlet-name>
+  	<servlet-class>sns.board.action.BoardInsertServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>BoardInsertServlet</servlet-name>
+  	<url-pattern>/BoardInsertSevlet</url-pattern>
+  </servlet-mapping>
+  <!-- BoardInsert -->
+  
+  
+  
+  
+  <!-- 디비 연결 정보 -->
+	<resource-ref>
+		<description>SnsProject</description>
+		<res-ref-name>jdbc/SnsProject</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+</web-app>
