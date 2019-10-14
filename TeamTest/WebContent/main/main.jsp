@@ -311,49 +311,7 @@ function insertBoard() {
 							<!-- 중간 -->
 							<div class="col-lg-6">
 								<!-- 글 작성 -->
-								<div class="central-meta new-pst">
-									<div class="new-postbox">
-										<figure>
-											<img src="./images/resources/admin2.jpg" alt="">
-										</figure>
-										<div class="newpst-input">
-											<form action="./Login.me" method="post">
-												<div id="writeBoard">
-													<textarea rows="2" placeholder="무슨 일이 일어나고 있나요?" id="content"></textarea>
-													
-												</div>
-												<div class="attachments">
-													<ul>
-														<li>
-															<i class="fa fa-music"></i>
-															<label class="fileContainer">
-																<input type="file" id="file_music">
-															</label>
-														</li>
-														<li>
-															<i class="fa fa-image"></i>
-															<label class="fileContainer">
-																<input type="file" id="file_image">
-															</label>
-														</li>
-														<li>
-															<i class="fa fa-video-camera"></i>
-															<label class="fileContainer">
-																<input type="file" id="file_video">
-															</label>
-														</li>
-														<li>
-															<button type="button" onclick="javascript : insertBoard();">게시</button>
-															<!-- <button type="button" onclick="write();">게시</button> -->
-														</li>
-													</ul>
-												</div>
-												
-												
-											</form>
-										</div>
-									</div>
-								</div>
+								<jsp:include page="../board/write2.jsp" />
 								<!-- /글 작성 -->
 
 								<!-- 뉴스피드 -->
