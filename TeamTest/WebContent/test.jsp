@@ -102,13 +102,8 @@ input[type=file] {
             }
             data.append("image_count", sel_files.length);
             
-           /*  if(sel_files.length < 1) {
-                alert("한개이상의 파일을 선택해주세요.");
-                return;
-            }      */      
-
             var xhr = new XMLHttpRequest();
-            xhr.open("POST","./study01_af.php");
+            xhr.open("POST","./BoardInsertServlet");
             xhr.onload = function(e) {
                 if(this.status == 200) {
                     console.log("Result : "+e.currentTarget.responseText);
@@ -126,8 +121,8 @@ input[type=file] {
 		<h2>이미지 미리보기</h2>
 
 		<div class="input_wrap">
-			<a href="javascript:" onclick="fileUploadAction();" class="my_button">파일
-				업로드</a> <input type="file" id="input_imgs" multiple />
+			<a href="javascript:" onclick="fileUploadAction();" class="my_button">파일 업로드</a>
+			<input type="file" id="input_imgs" name="input_imgs[]" accept=".gif, .jpg, .png" multiple />
 		</div>
 	</div>
 

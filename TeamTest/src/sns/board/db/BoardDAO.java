@@ -3,6 +3,8 @@ package sns.board.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -58,5 +60,43 @@ public class BoardDAO {
 		}
 		
 		return check;
+	}
+	
+	public List<BoardDTO> selectBoard(String email) {
+		List<BoardDTO> boardList = new ArrayList<BoardDTO>();
+		BoardDTO bdto = null;
+		
+		try {
+			con = getCon();
+			
+			sql = "select * from SnsProject.board where email=? order by b_date desc";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, email);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				bdto = new BoardDTO();
+				
+				bdto.setB_num(rs.getInt("b_num"));
+				bdto.setEmail(email);
+				bdto.setB_content(rs.getString("b_content"));
+				bdto.setImg(rs.getString("img"));
+				bdto.setVideo(rs.getString("video"));
+				bdto.setCommCount(rs.getInt("commCount"));
+				bdto.setB_like(rs.getInt("b_like"));
+				bdto.setB_date(rs.getString("b_date"));
+				
+				boardList.add(bdto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeDB();
+		}
+		
+		return boardList;
 	}
 }

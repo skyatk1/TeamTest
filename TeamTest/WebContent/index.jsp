@@ -8,8 +8,8 @@
 </head>
 <body>
 <%
-	/* response.sendRedirect("./Main.ma"); */
-	response.sendRedirect("./Login.me");
+	response.sendRedirect("./Main.ma");
+	/* response.sendRedirect("./Login.me"); */
 %>
 </body>
 </html>

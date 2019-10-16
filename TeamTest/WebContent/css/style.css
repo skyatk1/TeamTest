@@ -71,7 +71,7 @@ body {
 
 }
 
-p {
+p, pre{
     font-size: 14px;
     line-height: 26px;
     color: #8c8b8b;
@@ -1430,11 +1430,43 @@ form button {
     float: left;
     margin-top: 15px;
     width: 100%;
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 10px;
+    margin-top: 5px;
 }
 
 .post-meta > img {
     float: left;
     width: 100%;
+}
+
+.boardImg0 > img {
+	width: 0;
+	height: 0;
+}
+
+.boardImg1 > img {
+	width: 500px;
+	height: 250px;
+	object-fit: cover;
+}
+
+.boardImg2 > img {
+	width: 250px;
+	height: 250px;
+	object-fit: cover;
+}
+
+.boardImg3 > img {
+	width: 500px;
+	height: 250px;
+	object-fit: cover;
+}
+
+.boardImg4 > img {
+	width: 250px;
+	height: 125px;
+	object-fit: cover;
 }
 
 .description {
@@ -1444,7 +1476,7 @@ form button {
 }
 
 .description > p {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .description > span {

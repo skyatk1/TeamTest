@@ -16,7 +16,7 @@
 	
 	if (email != null) {
 		profile = mdto.getProfile();
-		System.out.println("profile: " + profile);
+		System.out.println("webTop.jsp: " + profile);
 	}
 %>
 

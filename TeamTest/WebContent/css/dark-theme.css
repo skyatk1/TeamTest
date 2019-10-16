@@ -45,6 +45,7 @@ textarea {
 p {
     color: #ccc;
 }
+
 .we-comment::before, .peoples-mesg-box > ul > li p::before {
     border-right-color: #363636;
 }
