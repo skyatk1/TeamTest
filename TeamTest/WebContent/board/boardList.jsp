@@ -1,3 +1,5 @@
+<%@page import="java.util.regex.Matcher"%>
+<%@page import="java.util.regex.Pattern"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="sns.member.db.MemberDTO"%>
 <%@page import="sns.member.db.MemberDAO"%>
@@ -21,13 +23,22 @@
 	
 	// 회원 정보 가져오기
 	MemberDAO mdao = new MemberDAO();
-	MemberDTO mdto = mdao.getProfile(email);
+	MemberDTO mdto = mdao.selectMember(email);
 
 	if (boardList.size() == 0) {
 		out.print("게시물 없음");
 	} else {
 		for (int i = 0; i < boardList.size(); i++) {
 			BoardDTO bdto = boardList.get(i);
+			
+			// 링크 처리를 위한 정규식 표현. 링크는 http://로 시작
+			String regex = "([\\p{Alnum}]+)://([a-z0-9.\\-&/%=?:@#$(),.+;~\\_]+)";
+			
+			Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+			Matcher m = p.matcher(bdto.getB_content());
+			
+			// 글 내용중 링크에 하이퍼링크 처리한 결과를 담음
+			String content = m.replaceAll("<a href='http://$2' target=_blank>http://$2</a>");
 			
 			// 이미지 리스트
 			String[] imgs = null;
@@ -40,6 +51,10 @@
 				imgs = new String[5];
 				imgs = bdto.getImg().split(",");
 				imgCnt = imgs.length;
+			}
+			
+			if (bdto.getVideo() != null) {
+				videoCnt = 1;
 			}
 %>
 <div class="central-meta item">
@@ -56,14 +71,48 @@
 				<ins>
 					<a href="time-line.html" title=""><%=mdto.getF_name() %> <%=mdto.getL_name() %></a>
 				</ins>
-				<span><%=bdto.getB_date() %>!!</span>
+				<div class="board-more">
+					<span class="board-more-optns"><i class="ti-more-alt"></i>
+						<ul>
+							<li><a href="#">게시물 수정</a></li>
+							<li><a href="#">게시물 삭제</a></li>
+						</ul>
+					</span>
+				</div>
+				<span id="fs"><%=bdto.getB_date() %></span>
 			</div>
 			<!-- /게시글의 작성자 이름/날짜정보 -->
 
 			<!-- 게시글 내용 -->
 			<!-- 게시글 content -->
 			<div class="description">
-				<pre><%=bdto.getB_content().replace("\r\n", "<br>")%></pre>
+				<!-- 게시물 번호 저장 -->
+				<input type="hidden" name="b_num" value="<%=bdto.getB_num() %>">
+			<%
+				if (bdto.getB_content().contains("http")) {
+			%>
+				<p>
+					<%=content %>
+			<%
+					if (bdto.getB_content().contains("youtu.be")) {
+			%>
+					<div class="youtube">
+						<iframe width="560" height="315" src="https://www.youtube.com/embed/<%=content.split("/")[3].substring(0, content.split("/")[3].indexOf("'")) %>?amp;autoplay=1" 
+							frameborder="0" 
+							allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" >
+						</iframe>
+					</div>
+			<%
+					}
+			%>
+				</p>
+			<%
+				} else {
+			%>
+				<pre><%=content%></pre>
+			<%
+				}
+			%>
 			</div>
 			<!-- /게시글 content -->
 			<!-- 사진, vedio -->
@@ -81,10 +130,18 @@
 		
 			if (bdto.getVideo() != null) {
 		%>
-				<iframe width="" height="285"
-					src="./upload/board_video/<%=bdto.getVideo() %>"
-					frameborder="0" allowfullscreen>
-				</iframe>
+				<%-- <div class="boardVideo<%=videoCnt %>">
+					<iframe
+						src="./upload/board_img/<%=bdto.getVideo() %>"
+						frameborder="0" allowfullscreen>
+					</iframe>
+				</div> --%>
+				<div class="boardVideo<%=videoCnt %>">
+					<video src="./upload/board_img/<%=bdto.getVideo() %>" 
+							width="500px" height="500px" autoplay controls>
+					
+					</video>
+				</div>
 		<%
 			}
 		%>

@@ -19,8 +19,6 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import sns.board.db.BoardDAO;
 import sns.board.db.BoardDTO;
 
-@MultipartConfig(fileSizeThreshold=1024*1024*10, maxFileSize=1024*1024*10, 
-maxRequestSize=1024*1024*10, location="D:\\workspace_jsp7\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\TeamTest\\upload\\board_video")
 public class BoardInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -40,7 +38,7 @@ public class BoardInsertServlet extends HttpServlet {
 		
 		String email = (String) session.getAttribute("email");
 		String imgs = null;
-		
+		String video = null;
 		
 		// 비 로그인 시 로그인 페이지로 이동
 		if (email == null) {
@@ -49,6 +47,7 @@ public class BoardInsertServlet extends HttpServlet {
 		
 		// 파일 저장 경로
 		String savePath = request.getServletContext().getRealPath("/upload/board_img");
+		// String savePath = "D:/workspace_jsp7/Project/fileupload";
 		
 		// 파일 최대 크기
 		int maxSize = 10 * 1024 * 1024;
@@ -60,6 +59,7 @@ public class BoardInsertServlet extends HttpServlet {
 		}
 		System.out.println("BoardInsertServlet.java - savePath: " + savePath);
 		ArrayList<String> filename = new ArrayList<String>();
+		String videoName = null;
 		
 		MultipartRequest multi = new MultipartRequest(request, savePath, maxSize, "UTF-8", 
 				new DefaultFileRenamePolicy());
@@ -69,8 +69,18 @@ public class BoardInsertServlet extends HttpServlet {
 		
 		while(files.hasMoreElements()){
 			String name = files.nextElement();
-			filename.add(multi.getFilesystemName(name));
+			
+			System.out.println("filename: " + multi.getFilesystemName(name));
+
+			if (multi.getFilesystemName(name).split("\\.")[1].equals("mp4")) {
+				videoName = multi.getFilesystemName(name);
+			} else {
+				filename.add(multi.getFilesystemName(name));
+			}
 		}
+		System.out.println("videoName: " + videoName);
+		
+		
 		System.out.println("BoardInsertServlet.java - filename: " + filename);
 		
 		System.out.println("BoardInsertServlet.java - filesize: " + filename.size());
@@ -83,19 +93,13 @@ public class BoardInsertServlet extends HttpServlet {
 		}
 		// 파일처리
 		
-		Part video = request.getPart("file");
-		System.out.println("video : " + video);
-		String videoName = video.getSubmittedFileName(); 
-		System.out.println("vi : " + videoName);
-				
-/*		String content = ;
-		content = content.replace("\r\n","<br>");*/
+		System.out.println("video: " + video);
 		
 		BoardDTO bdto = new BoardDTO();
 		bdto.setEmail(email);
 		bdto.setB_content(multi.getParameter("content"));
 		bdto.setImg(imgs);
-		bdto.setVideo("");
+		bdto.setVideo(videoName);
 		
 		BoardDAO bdao = new BoardDAO();
 		bdao.insertBoard(bdto);

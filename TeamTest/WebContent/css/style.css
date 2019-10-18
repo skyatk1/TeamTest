@@ -1413,17 +1413,71 @@ form button {
 .friend-name > ins {
     float: left;
     font-weight: 500;
-    width: 100%;
+    width: 50%;
     font-size: 14.5px;
     text-decoration: none;
 }
 
-.friend-name > span {
+.board-more {
+	float: right;
+}
+
+.board-more > span {
+	margin-left: 15px;
+	cursor: pointer;
+	position: relative;
+}
+
+.board-more-optns:hover > ul {
+	opacity: 1;
+	visibility: visible;
+}
+
+.board-more-optns > ul {
+	background: #ffffff none repeat scroll 0 0;
+	border-radius: 3px;
+	box-shadow: 0 10px 23px #8b8b8b;
+	color: #333;
+	line-height: initial;
+	list-style: outside none none;
+	margin-bottom: 0;
+	padding: 10px;
+	position: absolute;
+	/* position: relative; */
+	right: 0;
+	top: 100%;
+	z-index: 22;
+	width: 80px;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.2s linear 0s;
+}
+
+.board-more-optns > ul li {
+	display: inline-block;
+	font-size: 11px;
+	line-height: 24px;
+	width: 700%;
+}
+
+.friend-name > #fs {
     color: #999;
     float: left;
     font-size: 12px;
     text-transform: capitalize;
     width: 100%;
+}
+
+.youtube {
+	position:relative;
+	width:100%;
+	padding-bottom:56.25%
+}
+	
+.youtube iframe {
+	position:absolute;
+	width:100%;
+	height:100%
 }
 
 .post-meta {
@@ -1441,8 +1495,7 @@ form button {
 }
 
 .boardImg0 > img {
-	width: 0;
-	height: 0;
+	display: none;
 }
 
 .boardImg1 > img {
@@ -1467,6 +1520,16 @@ form button {
 	width: 250px;
 	height: 125px;
 	object-fit: cover;
+}
+
+.boardImg0 > iframe {
+	display: none;
+}
+
+.boardImg1 > iframe {
+ 	width: 500px;
+/*	height: 250px; */
+object-fit: cover;
 }
 
 .description {
@@ -4891,10 +4954,12 @@ canvas {
 }
 
 .chat-head .more {
+	border: 1px solid green;
     float: right;
 }
 
 .more > span {
+	border: 1px solid pink;
     margin-left: 15px;
     cursor: pointer;
     position: relative;
@@ -4912,6 +4977,7 @@ canvas {
 }
 
 .more-optns > ul {
+	border: 1px solid red;
     background: #ffffff none repeat scroll 0 0;
     border-radius: 3px;
     box-shadow: 0 10px 23px #8b8b8b;
@@ -4930,6 +4996,7 @@ canvas {
 }
 
 .more-optns > ul li {
+	border: 1px solid blue;
     display: inline-block;
     font-size: 11px;
     line-height: 24px;

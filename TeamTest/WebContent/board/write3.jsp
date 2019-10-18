@@ -61,15 +61,13 @@
 	function preview_video () {
 		var video = $("video");
 		var thumbnail = $("canvas");
-		var input = $("#vidInput");
+		var input = $("#videoFile");
 		var ctx = thumbnail.get(0).getContext("2d");
 		var duration = 0;
 		var img = $("#vid_preview");
       
+		/* var file = event.target.files[0]; */
 		var file = event.target.files[0];
-		video = file;
-		alert("video : " + URL.createObjectURL(video));
-
 		if (["video/mp4"].indexOf(file.type) === -1) {
 			alert("Only 'MP4' video format allowed.");
 			return;
@@ -91,6 +89,8 @@
 				ctx.drawImage(video[0], 0, 0, video[0].videoWidth, video[0].videoHeight);
 				img.attr('width', 100).attr('height', 100).attr("src", thumbnail[0].toDataURL());
 			});
+			
+			/* sel_files.push(e); */
 		});
 		
 	}
@@ -153,18 +153,30 @@
 			}
 		});
  	*/	
- 	
- 		alert("업로드 파일 갯수 : "+sel_files.length);
+		var video = document.getElementById('videoFile');
 		var data = new FormData();
+		var content = $("#content").val();
+		
+		// 줄바꿈 <br />로 변경
+		content = content.replace(/(?:\r\n|\r|\n)/g, '<br>');
 
-        for(var i=0, len=sel_files.length; i<len; i++) {
-            var name = "image_"+i;
+		/* if (!video.value) return; // 파일이 없는 경우 빠져나오기 */
+
+		data.append("video", video.files[0]);
+ 	  
+ 	
+		alert("video : " + video.files[0]);
+
+
+		for(var i=0, len=sel_files.length; i<len; i++) {
+			var name = "image_"+i;
             data.append(name, sel_files[i]);
         }
-        data.append("content", $("#content").val());
-        data.append("imgCnt", sel_files.length);
-		data.append("video", video);
+		
+		
+        data.append("content", content);
         
+ 		alert("업로드 파일 갯수 : "+sel_files.length);
         var xhr = new XMLHttpRequest();
         xhr.open("POST","./BoardInsertServlet");
         xhr.onload = function(e) {
@@ -181,7 +193,7 @@
 				<img src="./images/resources/admin2.jpg" alt="">
 			</figure>
 			<div class="newpst-input">
-				<form id="writeBoard" enctype="multipart/form-data">
+				<form id="writeBoard" enctype="multipart/form-data" method="post">
 					
 					<textarea rows="2" placeholder="무슨 일이 일어나고 있나요?" id="content" name="content"></textarea>
 					<!-- 이미지 미리보기 -->
@@ -217,7 +229,7 @@
 							<li>
 								<i class="fa fa-video-camera"></i>
 								<label class="fileContainer">
-									<input type="file" name="file" id="vidInput" accept="video/mp4" onchange="preview_video();"/>
+									<input type="file" name="videoFile" id="videoFile" accept="video/mp4" onchange="preview_video();"/>
 								</label>
 							</li>
 							<li>

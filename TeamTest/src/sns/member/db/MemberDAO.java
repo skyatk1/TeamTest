@@ -163,36 +163,6 @@ public class MemberDAO {
 		return mdto;
 	}
 	
-	// 회원의 이름, 프로필사진 정보 가져오기
-	public MemberDTO getProfile(String email) {
-		MemberDTO mdto = null;
-		
-		try {
-			con = getCon();
-			
-			sql = "select f_name, l_name, profile from SnsProject.member where email=?";
-			
-			pstmt = con.prepareStatement(sql);
-			
-			pstmt.setString(1, email);
-			
-			rs = pstmt.executeQuery();
-			
-			if (rs.next()) {
-				mdto = new MemberDTO();
-				
-				mdto.setF_name(rs.getString("f_name"));
-				mdto.setL_name(rs.getString("l_name"));
-				mdto.setProfile(rs.getString("profile"));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			closeDB();
-		}
-		
-		return mdto;
-	}
 	
 	private void closeDB(){
 		try{

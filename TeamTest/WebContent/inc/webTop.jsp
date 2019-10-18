@@ -23,7 +23,7 @@
 	<div class="topbar stick">
 		<!-- 로고 -->
 		<div class="logo">
-			<a title="" href="newsfeed.html">
+			<a title="" href="./Main.ma">
 				<img src="./images/logo.png" alt="">
 			</a>
 		</div>

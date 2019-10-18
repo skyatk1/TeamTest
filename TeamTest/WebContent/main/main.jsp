@@ -467,7 +467,7 @@
 																	<i class="em em-rage"></i>
 																	<i class="em em-stuck_out_tongue"></i>
 																</div>
-																<button type="submit"></button>
+																<button id="formButton" type="submit">게시</button>
 															</form>
 														</div>
 													</li>
