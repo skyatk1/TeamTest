@@ -2,6 +2,7 @@ package sns.board.action;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,26 @@ public class BoardController extends HttpServlet{
 		ActionForward forward = null;
 		if(command.equals("/Board.bo")){
 			
+		} else if (command.equals("/DeleteBoard.bo")) {
+			action = new DeleteBoardAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if (forward != null) {
+			// 페이지 이동정보가 있다
+			if (forward.isRedirect()) {
+				// 이동방식이 true
+				response.sendRedirect(forward.getPath());
+			} else {
+				// 이동방식이 false
+				RequestDispatcher dis = request.getRequestDispatcher(forward.getPath());
+				dis.forward(request, response);
+			}
 		}
 	}
 

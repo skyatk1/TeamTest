@@ -1,7 +1,9 @@
- <%@ page language="java" contentType="text/html; charset=UTF-8"
+ <%@page import="sns.member.db.MemberDTO"%>
+<%@page import="sns.member.db.MemberDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
-<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script> 
+<script src="http://code.jquery.com/jquery-3.4.1.min.js"></script> 
 <script type="text/javascript">
 
 	//이미지 정보들을 담을 배열
@@ -89,8 +91,6 @@
 				ctx.drawImage(video[0], 0, 0, video[0].videoWidth, video[0].videoHeight);
 				img.attr('width', 100).attr('height', 100).attr("src", thumbnail[0].toDataURL());
 			});
-			
-			/* sel_files.push(e); */
 		});
 		
 	}
@@ -109,70 +109,18 @@
 
 	// DB저장
 	function insertBoard() {
-//		var formData = new FormData();
-//		var formData = $("#writeBoard").serialize(); 
-		
-//		for(var i = 0, len = sel_files.length; i < len; i++) {
-			//alert($("#imageFile").val());
-//			alert(sel_files[i]);
-//        }
-
-	
-//		alert("content: " + $("#content").val());
-//		alert("업로드 파일 갯수 : "+sel_files.length);
-//		alert("insert files: " + sel_files);
-		
-//		formData.append("content", $("#content").val());
-//		formData.append("imgFiles", sel_files);
-
-/* 		for(var i = 0, len = sel_files.length; i < len; i++) {
-            var name = "img"+i;
-            formData.append(name, sel_files[i]);
-        } */
-		
-//		formData.append("imgCnt", sel_files.length);
-		
-		
-/* 		for (var pair of formData.entries()) {
-			console.log(pair[0] + ", " + pair[1]);
-		}
-	 */
-	/*	
-		$.ajax({
-			url : "./BoardInsertServlet",
- 			type : "POST", 
-			data : formData,
-			contentType : false,
-			processData : false,
-			enctype : "multipart/form-data",
-			success : function(data) {
-				alert("success");
-			},
-			error : function(data) {
-				alert("error");
-			}
-		});
- 	*/	
 		var video = document.getElementById('videoFile');
 		var data = new FormData();
 		var content = $("#content").val();
-		
-		// 줄바꿈 <br />로 변경
-		content = content.replace(/(?:\r\n|\r|\n)/g, '<br>');
-
-		/* if (!video.value) return; // 파일이 없는 경우 빠져나오기 */
 
 		data.append("video", video.files[0]);
  	  
- 	
 		alert("video : " + video.files[0]);
-
 
 		for(var i=0, len=sel_files.length; i<len; i++) {
 			var name = "image_"+i;
             data.append(name, sel_files[i]);
         }
-		
 		
         data.append("content", content);
         
@@ -187,10 +135,24 @@
         xhr.send(data);
 	}
 </script>
+<%
+	String email = (String) session.getAttribute("email");
+	
+	if (email == null) {
+		response.sendRedirect("./Login.me");
+	}
+	MemberDAO mdao = new MemberDAO();
+	MemberDTO mdto = mdao.selectMember(email);
+	String profile = "";
+	
+	if (email != null) {
+		profile = mdto.getProfile();
+	}
+%>
 	<div class="central-meta new-pst">
 		<div class="new-postbox">
 			<figure>
-				<img src="./images/resources/admin2.jpg" alt="">
+				<img src="./images/member/<%=profile %>" alt="">
 			</figure>
 			<div class="newpst-input">
 				<form id="writeBoard" enctype="multipart/form-data" method="post">
@@ -242,6 +204,3 @@
 			</div>
 		</div>
 	</div>
-	
-	<script src="../js/main.min.js"></script>
-	<script src="../js/script.js"></script>

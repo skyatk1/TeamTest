@@ -16,7 +16,6 @@
 	
 	if (email != null) {
 		profile = mdto.getProfile();
-		System.out.println("webTop.jsp: " + profile);
 	}
 %>
 
@@ -182,7 +181,7 @@
 					<a href="#" title=""><i class="ti-pencil-alt"></i>edit profile</a>
 					<a href="#" title=""><i class="ti-target"></i>activity log</a>
 					<a href="#" title=""><i class="ti-settings"></i>account setting</a>
-					<a href="#" title=""><i class="ti-power-off"></i>log out</a>
+					<a href="./Logout.me" title=""><i class="ti-power-off"></i>log out</a>
 				</div>
 			</div>
 			<!-- /유저 이미지 -->

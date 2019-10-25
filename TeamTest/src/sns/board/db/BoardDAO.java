@@ -5,10 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+
+import sns.member.db.MemberDTO;
 
 public class BoardDAO {
 	
@@ -41,11 +44,11 @@ public class BoardDAO {
 		try {
 			con = getCon();
 			
-			sql = "insert into board (email, b_content, img, video) values (?, ?, ?, ?)";
+			sql = "insert into board (b_m_num, b_content, img, video) values (?, ?, ?, ?)";
 			
 			pstmt = con.prepareStatement(sql);
 			
-			pstmt.setString(1, bdto.getEmail());
+			pstmt.setInt(1, bdto.getB_m_num());
 			pstmt.setString(2, bdto.getB_content());
 			pstmt.setString(3, bdto.getImg());
 			pstmt.setString(4, bdto.getVideo());
@@ -62,26 +65,49 @@ public class BoardDAO {
 		return check;
 	}
 	
-	public List<BoardDTO> selectBoard(String email) {
+	// 메인 글 가져오기
+	public Vector selectBoard(int b_m_num) {
+		Vector v = new Vector();
+		
 		List<BoardDTO> boardList = new ArrayList<BoardDTO>();
-		BoardDTO bdto = null;
+		List<MemberDTO> memberList = new ArrayList<MemberDTO>();
 		
 		try {
 			con = getCon();
 			
-			sql = "select * from SnsProject.board where email=? order by b_date desc";
+			sql = "select m.f_name, m.l_name, m.profile, b_num, b_m_num, b_content, img, video, commCount, b_like, b_date " +
+				  "from board b join member m " +
+				  "on b.b_m_num = m.m_num " +
+				  "where b_m_num = ? " +
+				  "or b_m_num in ( " +
+				  					"select f.response_m_num " +
+				  					"from snsproject.friend f join snsproject.member m " +
+				  					"on f.response_m_num = m.m_num " +
+				  					"where f.request_m_num = ? " +
+				  					"and f.status = 'friend' " +
+				  					"union " +
+				  					"select f.request_m_num " +
+				  					"from snsproject.friend f join snsproject.member m " +
+				  					"on f.response_m_num = m.m_num " +
+				  					"where f.response_m_num = ? " +
+				  					"and f.status = 'friend'" +
+				  				") " +
+				  	"order by b_date desc";
 			
 			pstmt = con.prepareStatement(sql);
 			
-			pstmt.setString(1, email);
+			pstmt.setInt(1, b_m_num);
+			pstmt.setInt(2, b_m_num);
+			pstmt.setInt(3, b_m_num);
 			
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				bdto = new BoardDTO();
+				BoardDTO bdto = new BoardDTO();
+				MemberDTO mdto = new MemberDTO();
 				
 				bdto.setB_num(rs.getInt("b_num"));
-				bdto.setEmail(email);
+				bdto.setB_m_num(rs.getInt("b_m_num"));
 				bdto.setB_content(rs.getString("b_content"));
 				bdto.setImg(rs.getString("img"));
 				bdto.setVideo(rs.getString("video"));
@@ -89,14 +115,44 @@ public class BoardDAO {
 				bdto.setB_like(rs.getInt("b_like"));
 				bdto.setB_date(rs.getString("b_date"));
 				
+				mdto.setF_name(rs.getString("f_name"));
+				mdto.setL_name(rs.getString("l_name"));
+				mdto.setProfile(rs.getString("profile"));
+				
 				boardList.add(bdto);
+				memberList.add(mdto);
 			}
+			
+			v.add(boardList);
+			v.add(memberList);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			closeDB();
 		}
 		
-		return boardList;
+		return v;
 	}
+	
+	public void deleteBoard(int b_num) {
+		
+		try {
+			con = getCon();
+			
+			sql = "delete from SnsProject.board where b_num=?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, b_num);
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeDB();
+		}
+	}
+	
 }

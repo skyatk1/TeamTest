@@ -68,7 +68,6 @@ body {
     color: #545454;
     font-weight: 400;
     letter-spacing: 0.1px;
-
 }
 
 p, pre{
@@ -440,7 +439,6 @@ iframe {
     height: 370px;
 }
 
-
 /*======================/
 ***** Home page 1 
 ======================*/
@@ -458,6 +456,7 @@ iframe {
 	z-index: 9999;
 	background: url(../images/loader.gif) center no-repeat #fff;
 }*/
+
 .postoverlay {
   background-color: rgba(0,0,0,.8);
   position: absolute;
@@ -468,10 +467,23 @@ iframe {
   z-index: 99;
   display: none;
 }
+
+.menuoverlay {
+  background-color: rgba(0,0,0,.8);
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  display: none;
+}
+
 .central-meta.new-pst {
     position: relative;
     z-index: 99;
 }
+
 #topcontrol {
     border-radius: 5px;
     color: #fff;
@@ -541,6 +553,14 @@ header.sticky {
 .log-reg-area > p {
     color: #878787;
     font-size: 14px;
+}
+
+.loadMore {
+	position: relative;
+}
+
+#noneBoard {
+	text-align: center;
 }
 
 .friend-logo {

@@ -37,6 +37,7 @@ public class BoardInsertServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		String email = (String) session.getAttribute("email");
+		int m_num = (int) session.getAttribute("m_num");
 		String imgs = null;
 		String video = null;
 		
@@ -96,7 +97,7 @@ public class BoardInsertServlet extends HttpServlet {
 		System.out.println("video: " + video);
 		
 		BoardDTO bdto = new BoardDTO();
-		bdto.setEmail(email);
+		bdto.setB_m_num(m_num);
 		bdto.setB_content(multi.getParameter("content"));
 		bdto.setImg(imgs);
 		bdto.setVideo(videoName);

@@ -2,7 +2,7 @@ package sns.board.db;
 
 public class BoardDTO {
 	private int b_num;
-	private String email;
+	private int b_m_num;
 	private String b_content;
 	private String img;
 	private String video;
@@ -17,11 +17,11 @@ public class BoardDTO {
 	public void setB_num(int b_num) {
 		this.b_num = b_num;
 	}
-	public String getEmail() {
-		return email;
+	public int getB_m_num() {
+		return b_m_num;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setB_m_num(int b_m_num) {
+		this.b_m_num = b_m_num;
 	}
 	public String getB_content() {
 		return b_content;

@@ -13,22 +13,28 @@
 <link rel="stylesheet" href="./css/style.css">
 <link rel="stylesheet" href="./css/jquery.modal.css">
 
-<script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="../js/jquery.modal.js"></script>
-<script src="./js/jquery.modal.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
-	$(function() {
-		$('a[href="#deleteCheck"]').click(function(event) {
-			$('#deleteCheck').show();
-			event.preventDefault();
-			$(this).modal({
-				fadeDuration: 250
-			});
-		});
-	
-	});
+	function openModal() {
+		
+	}
 </script>
+<!-- 삭제 Modal popup -->
+<div id="ex7" class="deleteModal">
+	<a class="close-modal"></a>
+	<p>
+		<form method="post">
+			게시물을 삭제하시겠습니까? <br>
+			변경해야 할 사항이 있는 경우 수정할 수 있습니다.
+			<hr>
+			<div style="float: right;">
+				<button type="button" class="delBoardBtn" style="font-size: 0.8em;">삭제</button>
+			</div>
+		</form>
+	</p>
+</div>
+<!-- /삭제 Modal popup -->
+
 <%
 	String email = (String) session.getAttribute("email");
 	int m_num = (int) session.getAttribute("m_num");
@@ -37,17 +43,12 @@
 		response.sendRedirect("./Login.me");
 	}
 
-	// 글정보 가져오기
+	// 글정보, 글에 해당하는 회원정보 가져오기
 	BoardDAO bdao = new BoardDAO();
 	Vector vec = bdao.selectBoard(m_num);
 	
-	
 	List<BoardDTO> boardList = (List) vec.get(0);
 	List<MemberDTO> memberList = (List) vec.get(1);
-	
-	// 회원 정보 가져오기
-/* 	MemberDAO mdao = new MemberDAO();
-	MemberDTO mdto = mdao.selectMember(email); */
 
 	if (boardList.size() == 0) {
 %>
@@ -112,7 +113,7 @@
 					<span class="board-more-optns"><i class="ti-more-alt"></i>
 						<ul>
 							<li><a href="#">게시물 수정</a></li>
-							<li><a href="#deleteCheck">게시물 삭제</a></li>
+							<li><a href="#" class="deleteBoard" onclick="location.href='#ex7'">게시물 삭제</a></li>
 						</ul>
 					</span>
 				</div>
@@ -122,25 +123,15 @@
 				<span id="fs"><%=bdto.getB_date() %></span>
 				
 			</div>
-				<div id="#deleteCheck" class="deleteModal">
-					<p>
-						<h6>게시물을 삭제하시겠습니까?</h6>
-						변경해야 할 사항이 있는 경우 수정할 수 있습니다.
-						<hr>
-						<div style="float: right;">
-							<input type="button" value="확인">
-						</div>
-						
-					</p>
-				</div>
 			<!-- /게시글의 작성자 이름/날짜정보 -->
+			
 
 			<!-- 게시글 내용 -->
 			<!-- 게시글 content -->
 			<div class="description">
 				<!-- 게시물 번호 저장 -->
 				<input type="hidden" name="b_num" value="<%=bdto.getB_num() %>">
-				<pre><%=content %></pre>
+				<pre><%=content %> / i:<%=i %> / b_num:<%=bdto.getB_num() %>TQ</pre>
 			<%
 				if (bdto.getB_content().contains("youtu.be")) {
 			%>
